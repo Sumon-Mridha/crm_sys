@@ -1,4 +1,4 @@
-<?php 
+<?php
 function numberToWord($value)
 {
 	$digit = array('','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen');
@@ -7,12 +7,13 @@ function numberToWord($value)
 	$nw = (string)$value;
 	$len = strlen($nw);
 	$word = '';
+	$i=$len-1;
 	if ($len>0 && $len<4) {
 		if ($len<2){
 			$word = $digit[$value];
 			return $word;
 		}
-		for ($i=$len-1; $i >= 0; $i-=3){
+		else{
 			$num = (int)$value;
 			if ($num<20) {
 				$word = $digit[$num].$word;
@@ -21,7 +22,13 @@ function numberToWord($value)
 				$word = $list2[$nw[($i-1)]].$digit[$nw[$i]].$word;
 			}
 			else{
-				$word = $digit[$nw[($i-2)]].' '.$list2[10].' '.$list2[$nw[($i-1)]].$digit[$nw[$i]].$word;
+				$chec = substr($num,1);
+				if((int)$chec < 20){
+					$word = $digit[$nw[($i-2)]].' '.$list2[10].' '.$digit[$chec].$word;
+				}
+				else{
+					$word = $digit[$nw[($i-2)]].' '.$list2[10].' '.$list2[$nw[($i-1)]].$digit[$nw[$i]].$word;
+				}
 			}
 		}
 		return $word;
@@ -30,7 +37,6 @@ function numberToWord($value)
 		return null;
 }
 // echo numberToWord(500);
-
 function inword($value='')
 {
 	if ($value==null) {
@@ -68,7 +74,5 @@ function inword($value='')
 	 		}
 	 	}	
 	 }
-
-	return $word;
+	return ucwords($word);
 }
-echo inword();
